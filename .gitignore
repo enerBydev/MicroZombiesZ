@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.nuxt/
+.output/
+logs/
+*.log
+.env
+playwright-report/
+test-results/
