@@ -1,0 +1,87 @@
+/* ============================================================
+   MicroZombiesZ — Design System (tokens)
+   Paleta zombie: verdes tóxicos, rojos sangre, fondo oscuro.
+   Espaciado en escala 4px. Tipografía de sistema (KISS).
+   Mobile-first: --z-touch define el target táctil mínimo (44px).
+   ============================================================ */
+
+:root {
+  /* Superficies */
+  --z-bg: #0b0f0c;
+  --z-surface: #131a15;
+  --z-surface-2: #1b251d;
+  --z-surface-3: #243125;
+
+  /* Acentos */
+  --z-toxic: #7cff5a;
+  --z-toxic-dim: #3fae2a;
+  --z-blood: #e5484d;
+  --z-blood-dim: #8c2f33;
+  --z-amber: #ffb224;
+  --z-acid: #7fd6c2;
+
+  /* Texto */
+  --z-text: #e8f2ea;
+  --z-text-dim: #9fb3a6;
+  --z-steel: #8b98a5;
+
+  /* Bordes y sombras */
+  --z-border: rgba(124, 255, 90, 0.18);
+  --z-border-strong: rgba(124, 255, 90, 0.42);
+  --z-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --z-shadow-inset: inset 0 0 0 1px rgba(124, 255, 90, 0.12);
+
+  /* Espaciado (escala 4px) */
+  --z-space-1: 4px;
+  --z-space-2: 8px;
+  --z-space-3: 12px;
+  --z-space-4: 16px;
+  --z-space-5: 24px;
+  --z-space-6: 32px;
+  --z-space-7: 48px;
+  --z-space-8: 64px;
+
+  /* Radios */
+  --z-radius-s: 6px;
+  --z-radius-m: 10px;
+  --z-radius-l: 16px;
+
+  /* Tipografía sistema */
+  --z-font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --z-font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+  --z-text-xs: 11px;
+  --z-text-s: 13px;
+  --z-text-m: 15px;
+  --z-text-l: 19px;
+  --z-text-xl: 26px;
+  --z-text-2xl: 40px;
+
+  /* Mobile-first */
+  --z-touch: 44px;
+  --z-hud-h: 52px;
+
+  /* Z-index */
+  --z-hud: 10;
+  --z-overlay: 20;
+  --z-banner: 30;
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #__nuxt {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--z-bg);
+  color: var(--z-text);
+  font-family: var(--z-font);
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
