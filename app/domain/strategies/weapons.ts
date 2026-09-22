@@ -101,8 +101,9 @@ const FACTORIES: Record<WeaponId, () => WeaponStrategy> = {
 }
 
 export function createWeapon(id: string): WeaponStrategy | null {
-  const factory = (FACTORIES as Record<string, () => WeaponStrategy | undefined>)[id]
-  return factory ? factory() : null
+  const factory = (FACTORIES as Record<string, (() => WeaponStrategy) | undefined>)[id]
+  if (!factory) return null
+  return factory()
 }
 
 export function shopWeapons(): WeaponStrategy[] {

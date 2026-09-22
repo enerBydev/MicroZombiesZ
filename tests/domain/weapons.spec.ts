@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createWeapon, PISTOL, SHOTGUN, RIFLE, SMG } from '../../app/domain/strategies/weapons'
+import { createWeapon, PISTOL, SHOTGUN, RIFLE } from '../../app/domain/strategies/weapons'
 import { SeededRandom } from '../../app/domain/utils/random'
 import { vlen } from '../../app/domain/value-objects/vec2'
 

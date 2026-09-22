@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Game } from '../../app/domain/game'
 import { SeededRandom } from '../../app/domain/utils/random'
-import { SHOTGUN } from '../../app/domain/strategies/weapons'
 import { createZombie } from '../../app/domain/entities/zombie-factory'
 
 const ARENA = { width: 800, height: 600 }

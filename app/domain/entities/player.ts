@@ -2,9 +2,8 @@
 // Invariantes: la vida nunca sale de [0, max]; el dinero nunca es negativo;
 // no se puede disparar sin munición ni comprar sin fondos.
 
-import type { Vec2 } from '../value-objects/vec2'
+import type { Vec2, Bounds2 } from '../value-objects/vec2'
 import { vadd, vclampToRect, vnormalize, vscale } from '../value-objects/vec2'
-import type { Bounds2 } from '../value-objects/vec2'
 import { Health } from '../value-objects/health'
 import { Money } from '../value-objects/money'
 import type { Bullet } from './bullet'
@@ -40,16 +39,23 @@ export class Player {
     this.radius = cfg.radius
     this.health = Health.full(cfg.maxHealth)
     this.money = Money.of(cfg.startingMoney)
-    this.loadout = [PISTOL()]
-    this.ammo[this.loadout[0].stats.id] = Number.POSITIVE_INFINITY
+    const starter = PISTOL()
+    this.loadout = [starter]
+    this.ammo[starter.stats.id] = Number.POSITIVE_INFINITY
   }
 
   get isDead(): boolean {
     return this.health.isDead
   }
 
+  private weaponAt(index: number): WeaponStrategy {
+    const w = this.loadout[index]
+    if (!w) throw new Error('Inventario de armas inconsistente')
+    return w
+  }
+
   get weapon(): WeaponStrategy {
-    return this.loadout[this.current]
+    return this.weaponAt(this.current)
   }
 
   get owned(): WeaponStrategy[] {

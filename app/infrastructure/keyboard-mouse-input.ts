@@ -50,15 +50,16 @@ export class KeyboardMouseInput implements InputAdapter {
   }
 
   getState(): RawInput {
-    const move: Vec2 = { x: 0, y: 0 }
-    if (this.keys.has('a') || this.keys.has('arrowleft')) move.x -= 1
-    if (this.keys.has('d') || this.keys.has('arrowright')) move.x += 1
-    if (this.keys.has('w') || this.keys.has('arrowup')) move.y -= 1
-    if (this.keys.has('s') || this.keys.has('arrowdown')) move.y += 1
+    let x = 0
+    let y = 0
+    if (this.keys.has('a') || this.keys.has('arrowleft')) x -= 1
+    if (this.keys.has('d') || this.keys.has('arrowright')) x += 1
+    if (this.keys.has('w') || this.keys.has('arrowup')) y -= 1
+    if (this.keys.has('s') || this.keys.has('arrowdown')) y += 1
     return {
-      move,
+      move: { x, y },
       firing: this.firing || this.keys.has(' '),
-      aimPoint: this.mouse ?? undefined
+      aimPoint: this.mouse ? { ...this.mouse } : undefined
     }
   }
 }
