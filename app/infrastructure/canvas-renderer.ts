@@ -21,26 +21,33 @@ export class CanvasRenderer implements RenderPort {
   render(s: GameSnapshot): void {
     const ctx = this.ctx
     if (!ctx) return
-    const { width, height } = this.canvas
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
-
-    if (this.canvas.width !== Math.round(width * dpr)) {
-      this.canvas.width = Math.round(width * dpr)
-      this.canvas.height = Math.round(height * dpr)
+    // Tamaño CSS real del lienzo (fallback a atributos si aún no hay layout).
+    const cssW = this.canvas.clientWidth || this.canvas.width
+    const cssH = this.canvas.clientHeight || this.canvas.height
+    // El objetivo SIEMPRE se deriva del tamaño CSS ×dpr. Antes se comparaba
+    // canvas.width consigo mismo ×dpr: con dpr=1 la condición era siempre
+    // falsa, el lienzo nunca crecía y las entidades quedaban recortadas
+    // fuera de un canvas 300x150 (bug de render invisible).
+    const targetW = Math.round(cssW * dpr)
+    const targetH = Math.round(cssH * dpr)
+    if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
+      this.canvas.width = targetW
+      this.canvas.height = targetH
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-    // Fondo + rejilla
+    // Fondo + rejilla (coordenadas CSS: la arena mide clientWidth×clientHeight)
     ctx.fillStyle = COLORS.bg
-    ctx.fillRect(0, 0, width, height)
+    ctx.fillRect(0, 0, cssW, cssH)
     ctx.strokeStyle = COLORS.grid
     ctx.lineWidth = 1
     ctx.beginPath()
-    for (let x = 0; x <= width; x += 40) {
-      ctx.moveTo(x, 0); ctx.lineTo(x, height)
+    for (let x = 0; x <= cssW; x += 40) {
+      ctx.moveTo(x, 0); ctx.lineTo(x, cssH)
     }
-    for (let y = 0; y <= height; y += 40) {
-      ctx.moveTo(0, y); ctx.lineTo(width, y)
+    for (let y = 0; y <= cssH; y += 40) {
+      ctx.moveTo(0, y); ctx.lineTo(cssW, y)
     }
     ctx.stroke()
 
