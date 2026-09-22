@@ -1,9 +1,24 @@
-node_modules/
-dist/
-.nuxt/
-.output/
-logs/
+# Nuxt
+.nuxt
+.output
+.data
+dist
+
+# deps
+node_modules
+
+# logs
+logs
 *.log
-.env
-playwright-report/
-test-results/
+
+# tests
+coverage
+playwright-report
+test-results
+
+# storybook
+storybook-static
+
+# os / editor
+.DS_Store
+.idea
