@@ -4,16 +4,30 @@
 
 import { Game } from '../domain/game'
 import type {
-  BuyRequest, BuyResult, DomainEvent, GameState, GameSnapshot,
+  GameSnapshot,
   InputAdapter, RandomSource, RawInput, RenderPort, ScoreRepository
 } from '../domain/ports'
+import type { BuyRequest, BuyResult, DomainEvent, GameState } from '../domain/types'
 import { endRun } from './use-cases/endRun'
+import { shopWeapons } from '../domain/strategies/weapons'
 import { CanvasRenderer } from '../infrastructure/canvas-renderer'
 import { KeyboardMouseInput } from '../infrastructure/keyboard-mouse-input'
 import { TouchInput } from '../infrastructure/touch-input'
 import { MathRandom } from '../domain/utils/random'
 import type { Vec2 } from '../domain/value-objects/vec2'
 import { vsub } from '../domain/value-objects/vec2'
+
+export interface InventoryEntry {
+  id: string
+  name: string
+  color: string
+  owned: boolean
+  ammo: number
+  infinite: boolean
+  cost: number
+  ammoCost: number
+  maxAmmo: number
+}
 
 export interface UiSnapshot {
   state: GameState
@@ -28,6 +42,7 @@ export interface UiSnapshot {
   ammo: number
   infiniteAmmo: boolean
   zombiesLeft: number
+  inventory: InventoryEntry[]
 }
 
 export interface EngineOptions {
@@ -171,6 +186,21 @@ export class GameEngine {
   uiSnapshot(): UiSnapshot {
     const g = this.game
     const w = g.player.weapon.stats
+    const ownedIds = new Set(g.player.owned.map(x => x.stats.id))
+    // Inventario = armas propias + catálogo de la tienda (para comprar).
+    const all = [...g.player.owned.map(x => x.stats), ...shopWeapons().map(x => x.stats)]
+      .filter((s, i, arr) => arr.findIndex(x => x.id === s.id) === i)
+    const inventory: InventoryEntry[] = all.map(s => ({
+      id: s.id,
+      name: s.name,
+      color: s.color,
+      owned: ownedIds.has(s.id),
+      ammo: g.player.ammoOf(s.id),
+      infinite: Boolean(s.infiniteAmmo),
+      cost: s.cost,
+      ammoCost: s.ammoCost,
+      maxAmmo: s.maxAmmo
+    }))
     return {
       state: g.state,
       hp: g.player.health.current,
@@ -183,7 +213,8 @@ export class GameEngine {
       weaponColor: w.color,
       ammo: g.player.ammoOf(w.id),
       infiniteAmmo: Boolean(w.infiniteAmmo),
-      zombiesLeft: g.zombiesRemaining
+      zombiesLeft: g.zombiesRemaining,
+      inventory
     }
   }
 

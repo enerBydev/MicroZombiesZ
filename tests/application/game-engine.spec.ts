@@ -4,7 +4,6 @@ import { NullRenderer } from '../../app/infrastructure/canvas-renderer'
 import type { InputAdapter, RawInput } from '../../app/domain/ports'
 import { InMemoryScoreRepository } from '../helpers/in-memory-score-repo'
 import { SeededRandom } from '../../app/domain/utils/random'
-import { createZombie } from '../../app/domain/entities/zombie-factory'
 
 class FakeInput implements InputAdapter {
   readonly mode = 'fake'

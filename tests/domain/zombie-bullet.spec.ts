@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import { Zombie } from '../../app/domain/entities/zombie'
 import { Bullet } from '../../app/domain/entities/bullet'
 import { createZombie } from '../../app/domain/entities/zombie-factory'
 

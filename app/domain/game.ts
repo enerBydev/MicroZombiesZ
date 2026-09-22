@@ -12,7 +12,7 @@ import { ACID_COLOR } from './types'
 import type { RandomSource, SpawnEntry, SpawnStrategy } from './ports'
 import { StandardWaveStrategy } from './strategies/spawn'
 import { BRAINS } from './strategies/brains'
-import { createWeapon, shopWeapons } from './strategies/weapons'
+import { createWeapon } from './strategies/weapons'
 import { Player, HEALTH_COST, HEALTH_PACK } from './entities/player'
 import { createZombie } from './entities/zombie-factory'
 import type { Zombie } from './entities/zombie'
@@ -182,8 +182,8 @@ export class Game {
   }
 
   private spawnDue(): void {
-    while (this.queue.length > 0 && this.queue[0].at <= this.waveElapsed) {
-      const entry = this.queue.shift()!
+    while (this.queue.length > 0 && this.queue[0] !== undefined && this.queue[0].at <= this.waveElapsed) {
+      const entry = this.queue.shift() as SpawnEntry
       this.zombies.push(createZombie(undefined, entry.kind, this.randomEdgePoint(), this.hpMultiplier))
     }
   }
@@ -213,6 +213,7 @@ export class Game {
     for (const z of this.zombies) {
       z.tickTimers(dt)
       const brain = BRAINS[z.kind]
+      if (!brain) continue
       const result = brain.step(z, ctx)
       z.position = vadd(z.position, result.move)
       z.position = {
