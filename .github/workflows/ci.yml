@@ -2,6 +2,8 @@ name: CI
 
 # DevOps (Plan→Monitor): integración continua de MicroZombiesZ.
 # Se ejecuta en cada push/PR hacia main y develop (y manualmente).
+# Matrix reducida a Node 22: el toolchain ESLint actual exige Object.groupBy
+# (no disponible en Node 20), y Nix/flake ya fija Node 22 como runtime.
 
 on:
   push:
@@ -16,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [20, 22]
+        node: [22]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,7 +36,6 @@ jobs:
       - name: Build
         run: npm run build
       - name: Subir reporte de cobertura
-        if: matrix.node == 22
         uses: actions/upload-artifact@v4
         with:
           name: coverage
