@@ -1,13 +1,14 @@
 name: CI
 
 # DevOps (Plan→Monitor): integración continua de MicroZombiesZ.
-# Se ejecuta en cada push/PR hacia main y develop.
+# Se ejecuta en cada push/PR hacia main y develop (y manualmente).
 
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
 
 jobs:
   qa:
