@@ -1,6 +1,6 @@
 name: CI
 
-# DevOps (Plan→Monitor): integración continua de MicroZombiesZ.
+# DevOps (Plan->Monitor): integracion continua de MicroZombiesZ.
 # Se ejecuta en cada push/PR hacia main y develop.
 
 on:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   qa:
-    name: QA (lint · tipos · tests · build)
+    name: QA (lint . tipos . tests . build)
     runs-on: ubuntu-latest
     strategy:
       matrix:
