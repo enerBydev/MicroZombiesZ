@@ -33,10 +33,7 @@ jobs:
         run: npx nuxt generate
         env:
           NUXT_APP_BASE_URL: /MicroZombiesZ/
-      - name: Configura y habilita Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .output/public

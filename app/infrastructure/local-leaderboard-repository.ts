@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 // LocalLeaderboardRepository — adaptador de leaderboard en localStorage.
 // Repository pattern: expone la misma forma que la API de Nitro
 // (GET/POST /api/leaderboard) para que la store conmute de estrategia
